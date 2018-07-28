@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -139,5 +140,21 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[0].id",is(1)))
                 .andExpect(jsonPath("$[0].name",is("ocean")))
                 .andExpect(jsonPath("$[1].id",is(2)));
+    }
+
+    @Test
+    public void should_return_no_centent_status_when_update_employee() throws Exception{
+
+        //given
+        Employee employee1 = new Employee("ocean","male");
+        given(employeeService.updateEmployee(any(),any(Employee.class))).willReturn(true);
+
+        //when
+        ResultActions result = mockMvc.perform(put("/employees/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(employee1)));
+
+        //then
+        result.andExpect(status().isNoContent());
     }
 }
