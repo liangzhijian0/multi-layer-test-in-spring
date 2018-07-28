@@ -44,7 +44,7 @@ public class CompanyService {
     }
 
     public List<CompanyDTO> getCompaniesByPage(int page, int pageSize) {
-        return companyRepository.findAll(new PageRequest(page,pageSize)).stream()
+        return companyRepository.findAll(PageRequest.of(page,pageSize)).stream()
                 .map(company -> new CompanyDTO(company))
                 .collect(Collectors.toList());
     }
