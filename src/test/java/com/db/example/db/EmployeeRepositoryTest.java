@@ -12,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 
@@ -36,5 +39,21 @@ public class EmployeeRepositoryTest {
         //then
         Assertions.assertThat(employeeRepository.findAll().size()).isEqualTo(2);
         Assertions.assertThat(employeeRepository.findAll().get(1).getName()).isEqualTo("ocean");
+    }
+
+    @Test
+    public void should_return_all_employees() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Employee("oocl"));
+        entityManager.persistFlushFind(new Employee("oocl2"));
+        entityManager.persistFlushFind(new Employee("oocl3"));
+
+        //when
+        List<Employee> employees = employeeRepository.findAll();
+
+        //then
+        Assertions.assertThat(employees.size()).isEqualTo(3);
+        Assertions.assertThat(employees.get(1).getName()).isEqualTo("oocl2");
     }
 }
