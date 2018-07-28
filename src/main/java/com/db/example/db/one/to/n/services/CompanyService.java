@@ -6,6 +6,7 @@ import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.repositories.CompanyRepository;
 import com.db.example.db.one.to.n.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,12 @@ public class CompanyService {
         return new CompanyDTO(companyRepository.findById(id).get());
     }
 
+    public List<CompanyDTO> getCompaniesByPage(int page, int pageSize) {
+        return companyRepository.findAll(new PageRequest(page,pageSize)).stream()
+                .map(company -> new CompanyDTO(company))
+                .collect(Collectors.toList());
+    }
+
     public ResponseEntity updateCompany(Company company) {
         company.getEmployeeList().stream().filter(employee -> employee.getCompany() == null).forEach(employee -> {
             employee.setCompany(company);
@@ -60,4 +67,6 @@ public class CompanyService {
         companyRepository.delete(one);
         return one;
     }
+
+
 }

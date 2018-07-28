@@ -40,6 +40,12 @@ public class CompanyController {
     }
 
     @Transactional
+    @GetMapping("/page/{page}/pageSize/{pageSize}")
+    public List<CompanyDTO> getCompaniesByPage(@PathVariable int page,@PathVariable int pageSize){
+        return  companyService.getCompaniesByPage(page,pageSize);
+    }
+
+    @Transactional
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateCompany(@RequestBody Company company) {
         return companyService.updateCompany(company);

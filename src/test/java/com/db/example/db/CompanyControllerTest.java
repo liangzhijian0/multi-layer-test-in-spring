@@ -20,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -74,12 +75,25 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$.name",is(company1.getName())));
     }
 
-//    @Test
-//    public void getCompanyById_ReturnsCompanyDetails() throws Exception{
-//        List<Company> companyList = new ArrayList<>();
-//        given(companyRepository.findAll()).willReturn(companyList);
-//
-//        mockMvc.perform(get("/companies")).andExpect(status().isOk());
-//    }
+    @Test
+    public void should_return_company_with_details_when_given_page_and_pageSize() throws Exception{
+        //given
+        Company company1 = new Company(1L,"oocl");
+        Company company2 = new Company(2L,"olaei");
+        CompanyDTO companyDTO1 = new CompanyDTO(company1);
+        CompanyDTO companyDTO2 = new CompanyDTO(company2);
+        List<CompanyDTO> companyDTOS = Arrays.asList(companyDTO1,companyDTO2);
+        given(companyService.getCompaniesByPage(anyInt(),anyInt())).willReturn(companyDTOS);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/companies/page/1/pageSize/1"));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].name",is("oocl")))
+                .andExpect(jsonPath("$[1].id",is(2)));
+    }
 
 }
