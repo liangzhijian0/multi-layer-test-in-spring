@@ -35,4 +35,9 @@ public class EmployeeController {
         return employeeService.getAllEmployee();
     }
 
+    @Transactional
+    @GetMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public EmployeeDTO getEmployeeById(@PathVariable Long id){
+        return employeeService.getEmployeeById(id);
+    }
 }

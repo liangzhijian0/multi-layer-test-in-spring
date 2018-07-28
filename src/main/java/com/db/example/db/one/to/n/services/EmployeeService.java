@@ -24,4 +24,8 @@ public class EmployeeService {
                 .map(employee -> new EmployeeDTO(employee))
                 .collect(Collectors.toList());
     }
+
+    public EmployeeDTO getEmployeeById(Long id) {
+        return new EmployeeDTO(employeeRepository.findById(id).get());
+    }
 }
