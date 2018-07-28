@@ -56,4 +56,17 @@ public class EmployeeRepositoryTest {
         Assertions.assertThat(employees.size()).isEqualTo(3);
         Assertions.assertThat(employees.get(1).getName()).isEqualTo("oocl2");
     }
+
+    @Test
+    public void should_return_employee_by_id() throws Exception{
+
+        //given
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Employee("oocl")).toString());
+
+        //when
+        Employee employee = employeeRepository.findById(id).get();
+
+        //then
+        Assertions.assertThat(employee.getName()).isEqualTo("oocl");
+    }
 }

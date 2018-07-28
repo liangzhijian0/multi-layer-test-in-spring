@@ -3,6 +3,7 @@ package com.db.example.db;
 import com.db.example.db.one.to.n.controllers.CompanyController;
 import com.db.example.db.one.to.n.controllers.EmployeeController;
 import com.db.example.db.one.to.n.dto.CompanyDTO;
+import com.db.example.db.one.to.n.dto.EmployeeDTO;
 import com.db.example.db.one.to.n.entities.Company;
 import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.services.CompanyService;
@@ -57,7 +58,44 @@ public class EmployeeControllerTest {
 
         //then
         result.andExpect(status().isCreated());
+    }
 
+    @Test
+    public void should_return_all_employees() throws Exception{
 
+        //given
+        Employee employee1 = new Employee(1L,"ocean");
+        Employee employee2 = new Employee(2L,"ocean");
+        EmployeeDTO employeeDTO1 = new EmployeeDTO(employee1);
+        EmployeeDTO employeeDTO2 = new EmployeeDTO(employee2);
+        List<EmployeeDTO> employees = Arrays.asList(employeeDTO1,employeeDTO2);
+        given(employeeService.getAllEmployee()).willReturn(employees);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/employees"));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].name",is("ocean")))
+                .andExpect(jsonPath("$[1].id",is(2)));
+    }
+
+    @Test
+    public void should_return_employee_by_id() throws Exception{
+
+        //given
+        Employee employee1 = new Employee(1L,"ocean");
+        EmployeeDTO employeeDTO1 = new EmployeeDTO(employee1);
+        given(employeeService.getEmployeeById(any())).willReturn(employeeDTO1);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/employees/1"));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id",is(1)))
+                .andExpect(jsonPath("$.name",is("ocean")));
     }
 }
