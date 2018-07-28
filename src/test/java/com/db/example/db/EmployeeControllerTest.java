@@ -118,4 +118,26 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[0].id",is(1)))
                 .andExpect(jsonPath("$[0].name",is("ocean")));
     }
+
+    @Test
+    public void should_return_employees_by_pages() throws Exception{
+
+        //given
+        Employee employee1 = new Employee(1L,"ocean","male");
+        Employee employee2 = new Employee(2L,"ocean22","female");
+        EmployeeDTO employeeDTO1 = new EmployeeDTO(employee1);
+        EmployeeDTO employeeDTO2 = new EmployeeDTO(employee2);
+        List<EmployeeDTO> employees = Arrays.asList(employeeDTO1,employeeDTO2);
+        given(employeeService.getEmployeesByPage(anyInt(),anyInt())).willReturn(employees);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/employees/page/1/size/1"));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].name",is("ocean")))
+                .andExpect(jsonPath("$[1].id",is(2)));
+    }
 }

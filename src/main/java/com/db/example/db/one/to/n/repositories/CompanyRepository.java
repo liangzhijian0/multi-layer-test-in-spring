@@ -1,6 +1,9 @@
 package com.db.example.db.one.to.n.repositories;
 
 import com.db.example.db.one.to.n.entities.Company;
+import com.db.example.db.one.to.n.entities.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +19,8 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
     List<Company> findAll();
 
     Optional<Company> findById(Long id);
+
+    Page<Company> findAll(Pageable pageable);
 
     Company save(Company company);
 
