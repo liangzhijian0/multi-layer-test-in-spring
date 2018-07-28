@@ -1,6 +1,7 @@
 package com.db.example.db.one.to.n.services;
 
 import com.db.example.db.one.to.n.dto.CompanyDTO;
+import com.db.example.db.one.to.n.dto.EmployeeDTO;
 import com.db.example.db.one.to.n.entities.Company;
 import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.repositories.CompanyRepository;
@@ -24,11 +25,14 @@ public class CompanyService {
     private EmployeeRepository employeeRepository;
 
 
-    public CompanyDTO createCompany(Company company) {
+    public boolean createCompany(Company company) {
         company.getEmployeeList().stream()
                 .forEach(employee -> employee.setCompany(company));
-        return new CompanyDTO(companyRepository.save(company));
+//        return new CompanyDTO(companyRepository.save(company));
+        companyRepository.save(company);
+        return true;
     }
+
 
     public List<CompanyDTO> getAllCompany() {
         return companyRepository.findAll().stream()
@@ -43,6 +47,12 @@ public class CompanyService {
     public List<CompanyDTO> getCompaniesByPage(int page, int pageSize) {
         return companyRepository.findAll(new PageRequest(page,pageSize)).stream()
                 .map(company -> new CompanyDTO(company))
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeDTO> getEmployeesFromCompany(long id) {
+        return companyRepository.findById(id).get().getEmployeeList().stream()
+                .map(employee -> new EmployeeDTO(employee))
                 .collect(Collectors.toList());
     }
 
@@ -67,6 +77,7 @@ public class CompanyService {
         companyRepository.delete(one);
         return one;
     }
+
 
 
 }

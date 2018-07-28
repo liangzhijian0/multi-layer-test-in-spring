@@ -1,6 +1,7 @@
 package com.db.example.db.one.to.n.controllers;
 
 import com.db.example.db.one.to.n.dto.CompanyDTO;
+import com.db.example.db.one.to.n.dto.EmployeeDTO;
 import com.db.example.db.one.to.n.entities.Company;
 import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.services.CompanyService;
@@ -22,8 +23,11 @@ public class CompanyController {
 
     @Transactional
     @PostMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public CompanyDTO createCompany(@RequestBody Company company){
-        return companyService.createCompany(company);
+    public ResponseEntity createCompany(@RequestBody Company company){
+        if (companyService.createCompany(company)) {
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Transactional
@@ -43,6 +47,12 @@ public class CompanyController {
     @GetMapping("/page/{page}/pageSize/{pageSize}")
     public List<CompanyDTO> getCompaniesByPage(@PathVariable int page,@PathVariable int pageSize){
         return  companyService.getCompaniesByPage(page,pageSize);
+    }
+
+    @Transactional
+    @GetMapping("/{id}/employees")
+    public List<EmployeeDTO> getEmployeesFromCompany(@PathVariable long id){
+        return  companyService.getEmployeesFromCompany(id);
     }
 
     @Transactional
