@@ -1,6 +1,8 @@
 package com.db.example.db;
 
+import com.db.example.db.one.to.n.dto.EmployeeDTO;
 import com.db.example.db.one.to.n.entities.Company;
+import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.repositories.CompanyRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -69,5 +71,39 @@ public class CompanyRepositoryTest {
         Assertions.assertThat(companies.get(0).getName()).isEqualTo("liaoe");
         Assertions.assertThat(companies.get(1).getName()).isEqualTo("hiale");
     }
+
+//    @Test
+//    public void should_return_employee_with_details_when_find_by_company_id() throws Exception{
+//
+//        //given
+//        Employee employee1 = new Employee(1L,"ooce");
+//        Employee employee2 = new Employee(2L,"delia");
+//        List<Employee> employeeList = Arrays.asList(employee1,employee2);
+//        entityManager.persistFlushFind(new Company(1L,"oocl",employeeList));
+//
+//        //when
+//        List<Employee> employees = companyRepository.findById((long) 1).get().getEmployeeList();
+//
+//        //then
+//        Assertions.assertThat(employees.size()).isEqualTo(2);
+//        Assertions.assertThat(employees.get(0).getName()).isEqualTo("ooce");
+//        Assertions.assertThat(employees.get(1).getName()).isEqualTo("delia");
+//    }
+
+    @Test
+    public void should_return_new_company_list_after_add_a_company() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Company("oocl"));
+        Company company = new Company("olive");
+
+        //when
+        companyRepository.save(company);
+
+        //then
+        Assertions.assertThat(companyRepository.findAll().size()).isEqualTo(2);
+        Assertions.assertThat(companyRepository.findAll().get(1).getName()).isEqualTo("olive");
+    }
+
 
 }
