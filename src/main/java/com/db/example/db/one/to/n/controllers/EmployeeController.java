@@ -46,4 +46,10 @@ public class EmployeeController {
     public List<EmployeeDTO> getMaleEmployee(){
         return employeeService.getMaleEmployee();
     }
+
+    @Transactional
+    @GetMapping(path = "/page/{page}/size/{size}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<EmployeeDTO> getEmployeesByPage(@PathVariable int page,@PathVariable int size){
+        return employeeService.getEmployeesByPage(page,size);
+    }
 }
