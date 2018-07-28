@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -84,5 +85,23 @@ public class EmployeeRepositoryTest {
         //then
         Assertions.assertThat(employees.size()).isEqualTo(2);
         Assertions.assertThat(employees.get(0).getName()).isEqualTo("oocl");
+    }
+
+    @Test
+    public void should_return_employees_by_page() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Employee("oocl","male"));
+        entityManager.persistFlushFind(new Employee("oocl2","female"));
+        entityManager.persistFlushFind(new Employee("oocl3","male"));
+        entityManager.persistFlushFind(new Employee("oocl4","female"));
+
+        //when
+        List<Employee> employees = employeeRepository.findAll(PageRequest.of(1,2)).getContent();
+
+        //then
+        Assertions.assertThat(employees.size()).isEqualTo(2);
+        Assertions.assertThat(employees.get(0).getName()).isEqualTo("oocl3");
+        Assertions.assertThat(employees.get(1).getGender()).isEqualTo("female");
     }
 }
