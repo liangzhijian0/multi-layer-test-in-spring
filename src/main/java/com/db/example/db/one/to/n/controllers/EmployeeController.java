@@ -22,7 +22,7 @@ public class EmployeeController {
 
     @Transactional
     @PostMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createCompany(@RequestBody Employee employee){
+    public ResponseEntity createEmployee(@RequestBody Employee employee){
         if (employeeService.createEmployee(employee)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -52,4 +52,14 @@ public class EmployeeController {
     public List<EmployeeDTO> getEmployeesByPage(@PathVariable int page,@PathVariable int size){
         return employeeService.getEmployeesByPage(page,size);
     }
+
+    @Transactional
+    @PutMapping(path = "{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
+        if (employeeService.updateEmployee(id,employee)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
 }

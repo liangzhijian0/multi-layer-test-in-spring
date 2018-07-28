@@ -41,4 +41,11 @@ public class EmployeeService {
                 .map(employee -> new EmployeeDTO(employee))
                 .collect(Collectors.toList());
     }
+
+    public boolean updateEmployee(Long id, Employee employee) {
+        employeeRepository.changeNameById(id,employee.getName());
+        return true;
+    }
+
+
 }
