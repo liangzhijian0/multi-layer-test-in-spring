@@ -104,4 +104,18 @@ public class EmployeeRepositoryTest {
         Assertions.assertThat(employees.get(0).getName()).isEqualTo("oocl3");
         Assertions.assertThat(employees.get(1).getGender()).isEqualTo("female");
     }
+
+    @Test
+    public void should_return_change_name_when_update_employee() throws Exception{
+
+        //given
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Employee("oocl","male")).toString());
+
+        //when
+        int update = employeeRepository.changeNameById(id,"ocean");
+
+        //then
+        Assertions.assertThat(update).isEqualTo(1);
+        Assertions.assertThat(employeeRepository.findById(id).get().getName()).isEqualTo("ocean");
+    }
 }
