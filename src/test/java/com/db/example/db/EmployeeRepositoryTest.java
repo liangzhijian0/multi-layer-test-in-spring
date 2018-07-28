@@ -69,4 +69,20 @@ public class EmployeeRepositoryTest {
         //then
         Assertions.assertThat(employee.getName()).isEqualTo("oocl");
     }
+
+    @Test
+    public void should_return_male_employee() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Employee("oocl","male"));
+        entityManager.persistFlushFind(new Employee("oocl2","female"));
+        entityManager.persistFlushFind(new Employee("oocl3","male"));
+
+        //when
+        List<Employee> employees = employeeRepository.findByGender("male");
+
+        //then
+        Assertions.assertThat(employees.size()).isEqualTo(2);
+        Assertions.assertThat(employees.get(0).getName()).isEqualTo("oocl");
+    }
 }
