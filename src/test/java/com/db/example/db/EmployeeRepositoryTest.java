@@ -118,4 +118,19 @@ public class EmployeeRepositoryTest {
         Assertions.assertThat(update).isEqualTo(1);
         Assertions.assertThat(employeeRepository.findById(id).get().getName()).isEqualTo("ocean");
     }
+
+    @Test
+    public void should_return_new_employee_list_after_delete_a_employee() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Employee("oocl","male"));
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Employee("ocean","female")).toString());
+
+        //when
+        int delete = employeeRepository.deleteEmployeeById(id);
+
+        //then
+        Assertions.assertThat(delete).isEqualTo(1);
+        Assertions.assertThat(employeeRepository.findAll().size()).isEqualTo(1);
+    }
 }
