@@ -55,21 +55,21 @@ public class CompanyService {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateCompany(Company company) {
+    public boolean updateCompany( Company company) {
         company.getEmployeeList().stream().filter(employee -> employee.getCompany() == null).forEach(employee -> {
             employee.setCompany(company);
         });
-
+        long id = company.getId();
+        companyRepository.changeNameById(id,company.getName());
         companyRepository.save(company);
         return true;
     }
 
     public Company deleteCompany(long id) {
         Company one = companyRepository.findById(id).get();
-        companyRepository.delete(one);
+        companyRepository.deleteById(id);
         return one;
     }
-
 
 
 }

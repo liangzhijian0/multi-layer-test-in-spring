@@ -131,7 +131,7 @@ public class CompanyControllerTest {
     public void should_return_crated_status_when_update_a_company() throws Exception {
 
         //given
-        Company company1 = new Company("oocl");
+        Company company1 = new Company(1L,"oocl");
         when(companyService.updateCompany(any(Company.class))).thenReturn(true);
         //when
         ResultActions result = mockMvc.perform(put("/companies/1")

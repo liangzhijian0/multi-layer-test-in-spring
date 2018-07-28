@@ -1,6 +1,6 @@
 package com.db.example.db;
 
-import com.db.example.db.one.to.n.dto.EmployeeDTO;
+
 import com.db.example.db.one.to.n.entities.Company;
 import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.repositories.CompanyRepository;
@@ -45,13 +45,13 @@ public class CompanyRepositoryTest {
     public void should_return_company_by_id() throws Exception{
 
         //given
-        Company saveCompany = entityManager.persistFlushFind(new Company("oocl"));
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Company("oocl")).toString());
 
         //when
-        Company company = companyRepository.findById(1L).get();
+        Company company = companyRepository.findById(id).get();
 
         //then
-        Assertions.assertThat(company.getName()).isEqualTo(saveCompany.getName());
+        Assertions.assertThat(company.getName()).isEqualTo("oocl");
     }
 
     @Test
@@ -105,5 +105,34 @@ public class CompanyRepositoryTest {
         Assertions.assertThat(companyRepository.findAll().get(1).getName()).isEqualTo("olive");
     }
 
+    @Test
+    public void should_return_new_company_list_after_update_a_company() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Company("oocl"));
+
+        //when
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Company( "ilaie")).toString());
+        int update = companyRepository.changeNameById(id,"huqai");
+
+        //then
+        Assertions.assertThat(update).isEqualTo(1);
+        Assertions.assertThat(companyRepository.findById(id).get().getName()).isEqualTo("huqai");
+    }
+
+    @Test
+    public void should_return_new_company_list_after_delete_a_company() throws Exception{
+
+        //given
+        entityManager.persistFlushFind(new Company("oocl"));
+
+        //when
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Company( "ilaie")).toString());
+        int delete = companyRepository.deleteCompanyById(id);
+
+        //then
+        Assertions.assertThat(delete).isEqualTo(1);
+        Assertions.assertThat(companyRepository.findAll().size()).isEqualTo(1);
+    }
 
 }

@@ -44,25 +44,26 @@ public class CompanyController {
     }
 
     @Transactional
-    @GetMapping("/page/{page}/pageSize/{pageSize}")
+    @GetMapping(path = "/page/{page}/pageSize/{pageSize}",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CompanyDTO> getCompaniesByPage(@PathVariable int page,@PathVariable int pageSize){
         return  companyService.getCompaniesByPage(page,pageSize);
     }
 
     @Transactional
-    @GetMapping("/{id}/employees")
+    @GetMapping(path = "/{id}/employees",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<EmployeeDTO> getEmployeesFromCompany(@PathVariable long id){
         return  companyService.getEmployeesFromCompany(id);
     }
 
     @Transactional
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}")
     public ResponseEntity updateCompany(@RequestBody Company company) {
         if (companyService.updateCompany(company)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
 
     @Transactional
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
