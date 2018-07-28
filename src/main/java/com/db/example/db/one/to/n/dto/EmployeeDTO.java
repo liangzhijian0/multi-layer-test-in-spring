@@ -10,7 +10,7 @@ public class EmployeeDTO {
     public EmployeeDTO(Employee employee) {
         this.id = employee.getId();
         this.name = employee.getName();
-        this.companyId = employee.getCompany().getId();
+        this.companyId = employee.getCompany()==null?0:employee.getCompany().getId();
     }
 
     public Long getId() {

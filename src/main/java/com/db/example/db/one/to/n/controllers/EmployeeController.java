@@ -1,6 +1,7 @@
 package com.db.example.db.one.to.n.controllers;
 
 import com.db.example.db.one.to.n.dto.CompanyDTO;
+import com.db.example.db.one.to.n.dto.EmployeeDTO;
 import com.db.example.db.one.to.n.entities.Company;
 import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.services.EmployeeService;
@@ -26,6 +27,12 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @Transactional
+    @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<EmployeeDTO> getAllEmployee(){
+        return employeeService.getAllEmployee();
     }
 
 }
