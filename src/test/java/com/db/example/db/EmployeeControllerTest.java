@@ -98,4 +98,24 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.id",is(1)))
                 .andExpect(jsonPath("$.name",is("ocean")));
     }
+
+    @Test
+    public void should_return_male_employee() throws Exception{
+
+        //given
+        Employee employee1 = new Employee(1L,"ocean","male");
+        Employee employee2 = new Employee(1L,"ocean22","female");
+        EmployeeDTO employeeDTO1 = new EmployeeDTO(employee1);
+        List<EmployeeDTO> employees = Arrays.asList(employeeDTO1);
+        given(employeeService.getMaleEmployee()).willReturn(employees);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/employees/male"));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].name",is("ocean")));
+    }
 }
