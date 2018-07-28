@@ -29,4 +29,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     @Query("UPDATE Employee employee SET employee.name = :name WHERE employee.id = :id")
     @Transactional
     int changeNameById(@Param("id") Long id, @Param("name") String name);
+
+    int deleteEmployeeById(@Param("id") Long id);
 }

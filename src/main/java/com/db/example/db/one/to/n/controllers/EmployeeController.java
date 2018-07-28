@@ -62,4 +62,13 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @Transactional
+    @DeleteMapping(path = "{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteEmployee(@PathVariable Long id){
+        if (employeeService.deleteEmployee(id)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
 }

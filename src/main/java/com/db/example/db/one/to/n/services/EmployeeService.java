@@ -48,4 +48,8 @@ public class EmployeeService {
     }
 
 
+    public boolean deleteEmployee(Long id) {
+        employeeRepository.deleteEmployeeById(id);
+        return true;
+    }
 }
