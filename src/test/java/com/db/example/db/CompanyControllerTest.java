@@ -58,14 +58,21 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$[1].id",is(2)));
     }
 
-//    @Test
-//    public void getCompany_ReturnsCompanyDetails() throws Exception{
-//        List<Company> companyList = new ArrayList<>();
-//        given(companyRepository.findAll()).willReturn(companyList);
-//
-//        mockMvc.perform(get("/companies")).andExpect(status().isOk())
-//                .andExpect(jsonPath())
-//    }
+    @Test
+    public void should_return_company_with_details_when_find_by_id() throws Exception{
+        //given
+        Company company1 = new Company(1L,"oocl");
+        CompanyDTO companyDTO1 = new CompanyDTO(company1);
+        given(companyService.getCompanyById(any())).willReturn(companyDTO1);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/companies/1"));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id",is(1)))
+                .andExpect(jsonPath("$.name",is(company1.getName())));
+    }
 
 //    @Test
 //    public void getCompanyById_ReturnsCompanyDetails() throws Exception{
