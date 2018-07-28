@@ -27,9 +27,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -153,6 +151,19 @@ public class EmployeeControllerTest {
         ResultActions result = mockMvc.perform(put("/employees/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(employee1)));
+
+        //then
+        result.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void should_return_no_centent_status_when_delete_employee() throws Exception{
+
+        //given
+        given(employeeService.deleteEmployee(any())).willReturn(true);
+
+        //when
+        ResultActions result = mockMvc.perform(delete("/employees/1"));
 
         //then
         result.andExpect(status().isNoContent());
