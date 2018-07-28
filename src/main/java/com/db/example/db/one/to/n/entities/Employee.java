@@ -28,6 +28,9 @@ public class Employee {
     private Company company;
 
 
+    public Employee(String name) {
+        this.name = name;
+    }
 
     public Employee() {
     }
