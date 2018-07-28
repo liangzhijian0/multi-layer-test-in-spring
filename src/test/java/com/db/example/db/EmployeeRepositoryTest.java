@@ -30,8 +30,8 @@ public class EmployeeRepositoryTest {
     public void should_return_new_employee_list_after_add_a_employee() throws Exception{
 
         //given
-        entityManager.persistFlushFind(new Employee("oocl"));
-        Employee employee = new Employee("ocean");
+        entityManager.persistFlushFind(new Employee("oocl","male"));
+        Employee employee = new Employee("ocean","male");
 
         //when
         employeeRepository.save(employee);
@@ -45,9 +45,9 @@ public class EmployeeRepositoryTest {
     public void should_return_all_employees() throws Exception{
 
         //given
-        entityManager.persistFlushFind(new Employee("oocl"));
-        entityManager.persistFlushFind(new Employee("oocl2"));
-        entityManager.persistFlushFind(new Employee("oocl3"));
+        entityManager.persistFlushFind(new Employee("oocl","male"));
+        entityManager.persistFlushFind(new Employee("oocl2","male"));
+        entityManager.persistFlushFind(new Employee("oocl3","male"));
 
         //when
         List<Employee> employees = employeeRepository.findAll();
@@ -61,7 +61,7 @@ public class EmployeeRepositoryTest {
     public void should_return_employee_by_id() throws Exception{
 
         //given
-        Long id = Long.valueOf(entityManager.persistAndGetId(new Employee("oocl")).toString());
+        Long id = Long.valueOf(entityManager.persistAndGetId(new Employee("oocl","male")).toString());
 
         //when
         Employee employee = employeeRepository.findById(id).get();

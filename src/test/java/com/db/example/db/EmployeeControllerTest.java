@@ -48,7 +48,7 @@ public class EmployeeControllerTest {
     public void should_return_created_status_when_create_employee() throws Exception{
 
         //given
-        Employee employee1 = new Employee(1L,"ocean");
+        Employee employee1 = new Employee(1L,"ocean","male");
         given(employeeService.createEmployee(any(Employee.class))).willReturn(true);
 
         //when
@@ -64,8 +64,8 @@ public class EmployeeControllerTest {
     public void should_return_all_employees() throws Exception{
 
         //given
-        Employee employee1 = new Employee(1L,"ocean");
-        Employee employee2 = new Employee(2L,"ocean");
+        Employee employee1 = new Employee(1L,"ocean","male");
+        Employee employee2 = new Employee(2L,"ocean","male");
         EmployeeDTO employeeDTO1 = new EmployeeDTO(employee1);
         EmployeeDTO employeeDTO2 = new EmployeeDTO(employee2);
         List<EmployeeDTO> employees = Arrays.asList(employeeDTO1,employeeDTO2);
@@ -86,7 +86,7 @@ public class EmployeeControllerTest {
     public void should_return_employee_by_id() throws Exception{
 
         //given
-        Employee employee1 = new Employee(1L,"ocean");
+        Employee employee1 = new Employee(1L,"ocean","male");
         EmployeeDTO employeeDTO1 = new EmployeeDTO(employee1);
         given(employeeService.getEmployeeById(any())).willReturn(employeeDTO1);
 

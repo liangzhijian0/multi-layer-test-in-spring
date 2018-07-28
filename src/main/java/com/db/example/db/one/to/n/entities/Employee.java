@@ -14,6 +14,7 @@ public class Employee {
     private long id;
 
     private String name;
+    private String gender;
 
     @CreatedDate
     private ZonedDateTime createdDate = ZonedDateTime.now();
@@ -28,21 +29,31 @@ public class Employee {
     private Company company;
 
 
-    public Employee(String name) {
+    public Employee(String name,String gender) {
         this.name = name;
+        this.gender = gender;
     }
 
     public Employee() {
     }
 
-    public Employee(long id,String name) {
+    public Employee(long id,String name,String gender) {
         this.id = id;
         this.name = name;
+        this.gender = gender;
     }
 
     public Employee(String name, Company company) {
         this.name = name;
         this.company = company;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public long getId() {

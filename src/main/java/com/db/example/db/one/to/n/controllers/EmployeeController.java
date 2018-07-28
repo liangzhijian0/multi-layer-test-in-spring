@@ -40,4 +40,10 @@ public class EmployeeController {
     public EmployeeDTO getEmployeeById(@PathVariable Long id){
         return employeeService.getEmployeeById(id);
     }
+
+    @Transactional
+    @GetMapping(path = "/male",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<EmployeeDTO> getMaleEmployee(){
+        return employeeService.getMaleEmployee();
+    }
 }

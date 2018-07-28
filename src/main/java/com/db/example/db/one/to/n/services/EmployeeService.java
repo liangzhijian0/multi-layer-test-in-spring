@@ -28,4 +28,10 @@ public class EmployeeService {
     public EmployeeDTO getEmployeeById(Long id) {
         return new EmployeeDTO(employeeRepository.findById(id).get());
     }
+
+    public List<EmployeeDTO> getMaleEmployee() {
+        return employeeRepository.findByGender("male").stream()
+                .map(employee -> new EmployeeDTO(employee))
+                .collect(Collectors.toList());
+    }
 }
