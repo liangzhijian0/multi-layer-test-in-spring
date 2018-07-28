@@ -58,13 +58,10 @@ public class CompanyController {
     @Transactional
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateCompany(@RequestBody Company company) {
-        return companyService.updateCompany(company);
-    }
-
-    @Transactional
-    @PutMapping(path = "/{id}/employees")
-    public ResponseEntity addEmployeeIntoCompany(@PathVariable Long id, @RequestBody Employee employee){
-        return companyService.addEmployeeIntoCompany(id,employee);
+        if (companyService.updateCompany(company)) {
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Transactional

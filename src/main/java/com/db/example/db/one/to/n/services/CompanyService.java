@@ -28,7 +28,6 @@ public class CompanyService {
     public boolean createCompany(Company company) {
         company.getEmployeeList().stream()
                 .forEach(employee -> employee.setCompany(company));
-//        return new CompanyDTO(companyRepository.save(company));
         companyRepository.save(company);
         return true;
     }
@@ -56,20 +55,13 @@ public class CompanyService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity updateCompany(Company company) {
+    public boolean updateCompany(Company company) {
         company.getEmployeeList().stream().filter(employee -> employee.getCompany() == null).forEach(employee -> {
             employee.setCompany(company);
         });
-        companyRepository.save(company);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 
-    public ResponseEntity addEmployeeIntoCompany(Long id, Employee employee) {
-        Company company = companyRepository.findById(id).get();
-        employee.setCompany(company);
-        employeeRepository.save(employee);
         companyRepository.save(company);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return true;
     }
 
     public Company deleteCompany(Long id) {

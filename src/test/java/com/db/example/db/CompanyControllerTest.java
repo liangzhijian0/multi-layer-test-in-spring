@@ -27,8 +27,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -128,7 +130,23 @@ public class CompanyControllerTest {
 //    }
 
     @Test
-    public void should_return_crated_status_when_crate_a_company() throws Exception {
+    public void should_return_crated_status_when_update_a_company() throws Exception {
+
+        //given
+        Company company1 = new Company("oocl");
+        when(companyService.updateCompany(any(Company.class))).thenReturn(true);
+        //when
+        ResultActions result = mockMvc.perform(put("/companies/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(company1)));
+        //then
+        result.andExpect(status().isCreated())
+                .andDo(print());
+
+    }
+
+    @Test
+    public void should_return_crated_status_when_create_a_company() throws Exception {
 
         //given
         Company company1 = new Company("oocl");
@@ -140,7 +158,21 @@ public class CompanyControllerTest {
         //then
         result.andExpect(status().isCreated())
                 .andDo(print());
+    }
 
+    @Test
+    public void should_return_company_when_delete_a_company() throws Exception {
+
+        //given
+        Company company1 = new Company("oocl");
+        when(companyService.createCompany(any(Company.class))).thenReturn(true);
+        //when
+        ResultActions result = mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(company1)));
+        //then
+        result.andExpect(status().isCreated())
+                .andDo(print());
     }
 
 }
