@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -20,6 +21,22 @@ public class CompanyRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
+
+    @Test
+    public void should_return_all_companies() throws Exception{
+
+        //given
+        Company saveCompany1 = entityManager.persistFlushFind(new Company("oocl"));
+        Company saveCompany2 = entityManager.persistFlushFind(new Company("okukel"));
+        List<Company> companyList = Arrays.asList(saveCompany1,saveCompany2);
+
+        //when
+        List<Company> companies = companyRepository.findAll();
+
+        //then
+        Assertions.assertThat(companies.get(0).getName()).isEqualTo(saveCompany1.getName());
+        Assertions.assertThat(companies.get(1).getName()).isEqualTo(saveCompany2.getName());
+    }
 
     @Test
     public void should_return_company_by_id() throws Exception{
