@@ -23,9 +23,14 @@ public class CompanyRepositoryTest {
 
     @Test
     public void should_return_company_by_id() throws Exception{
+
+        //given
         Company saveCompany = entityManager.persistFlushFind(new Company("oocl"));
+
+        //when
         Company company = companyRepository.findById(1L).get();
 
+        //then
         Assertions.assertThat(company.getName()).isEqualTo(saveCompany.getName());
     }
 

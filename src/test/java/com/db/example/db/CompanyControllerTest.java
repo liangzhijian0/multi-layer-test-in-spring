@@ -28,9 +28,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -160,19 +158,18 @@ public class CompanyControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    public void should_return_company_when_delete_a_company() throws Exception {
-
-        //given
-        Company company1 = new Company("oocl");
-        when(companyService.createCompany(any(Company.class))).thenReturn(true);
-        //when
-        ResultActions result = mockMvc.perform(post("/companies")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(company1)));
-        //then
-        result.andExpect(status().isCreated())
-                .andDo(print());
-    }
+//    @Test
+//    public void should_return_company_when_delete_a_company() throws Exception {
+//
+//        //given
+//        Company company1 = new Company("oocl");
+//        when(companyService.deleteCompany(anyInt())).thenReturn(company1);
+//        //when
+//        ResultActions result = mockMvc.perform(delete("/companies/1"));
+//
+//        //then
+//        result.andExpect(status().isOk())
+//                .andExpect(jsonPath("$.name",is("oocl")));
+//    }
 
 }
