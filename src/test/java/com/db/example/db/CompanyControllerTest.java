@@ -158,18 +158,18 @@ public class CompanyControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    public void should_return_company_when_delete_a_company() throws Exception {
-//
-//        //given
-//        Company company1 = new Company("oocl");
-//        when(companyService.deleteCompany(anyInt())).thenReturn(company1);
-//        //when
-//        ResultActions result = mockMvc.perform(delete("/companies/1"));
-//
-//        //then
-//        result.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.name",is("oocl")));
-//    }
+    @Test
+    public void should_return_company_when_delete_a_company() throws Exception {
+
+        //given
+        Company company1 = new Company("oocl");
+        when(companyService.deleteCompany(anyInt())).thenReturn(company1);
+        //when
+        ResultActions result = mockMvc.perform(delete("/companies/1"));
+
+        //then
+        result.andExpect(status().isOk());
+
+    }
 
 }
