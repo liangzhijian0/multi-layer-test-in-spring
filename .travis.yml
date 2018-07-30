@@ -14,4 +14,4 @@ language: java
 
       - ./gradlew --info assemble
 
-    script: ./gradlew --info check  
+    script: ./gradlew --info check   
