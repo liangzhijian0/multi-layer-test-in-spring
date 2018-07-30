@@ -1,4 +1,2 @@
 language: java
-gradle assemble
-install: true
-gradle check
+script: true
