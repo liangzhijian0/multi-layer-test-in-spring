@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
@@ -163,13 +164,14 @@ public class CompanyControllerTest {
 
         //given
         Company company1 = new Company("oocl");
-        when(companyService.deleteCompany(anyInt())).thenReturn(company1);
+        when(companyService.deleteCompany(anyLong())).thenReturn(company1);
         //when
         ResultActions result = mockMvc.perform(delete("/companies/1"));
 
         //then
-        result.andExpect(status().isOk());
-
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id",is(1 )))
+                .andExpect(jsonPath("$.name",is(company1.getName())));
     }
 
 }

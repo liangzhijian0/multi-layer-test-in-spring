@@ -6,6 +6,7 @@ import com.db.example.db.one.to.n.entities.Company;
 import com.db.example.db.one.to.n.entities.Employee;
 import com.db.example.db.one.to.n.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class EmployeeController {
 
     @Transactional
     @GetMapping(path = "/page/{page}/size/{size}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<EmployeeDTO> getEmployeesByPage(@PathVariable int page,@PathVariable int size){
+    public List<EmployeeDTO> getEmployeesByPage(@PathVariable int page, @PathVariable int size){
         return employeeService.getEmployeesByPage(page,size);
     }
 
